@@ -12,7 +12,7 @@ const Page: NextPage = () => {
     <div className='max-w-2xl mx-auto'>
       <h1 className='text-2xl font-bold'>Code Challenge: Airports</h1>
 
-      <input type='text' placeholder='Start Typing...' className='bg-gray-100 border rounded w-full p-3 mt-10' />
+      <input type='text' placeholder='Start Typing...' className='bg-gray-50 border rounded w-full p-3 mt-10' />
 
       <div className='flex mt-10'>
         <h2 className='text-xl font-bold mr-3'>Airports</h2>
