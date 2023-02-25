@@ -1,7 +1,7 @@
 import airports from '../data/airports.json'
 import Airport from '../types/airport'
 
-const BATCH_SIZE = 10
+const BATCH_SIZE = 20
 
 export const findAirportByIata = async (iata: string): Promise<Airport | undefined> => {
   return airports.find(airport => airport.iata === iata.toUpperCase())
