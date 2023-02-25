@@ -6,5 +6,5 @@ export const findAirportByIata = async (iata: string): Promise<Airport | undefin
 }
 
 export const allAirports = async (): Promise<Airport[]> => {
-  return airports
+  return airports.slice(0,10)
 }
