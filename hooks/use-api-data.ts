@@ -1,16 +1,27 @@
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 
-export const useApiData = <T>(path: string, defaultValue: any): T => {
-  const [ data, setData ] = useState<T>(defaultValue)
+interface UseApiProps<T> {
+  data: T[],
+  loadmore: () => void
+}
+
+export const useApiData = <T>(path: string, defaultValue: any): UseApiProps<T> => {
+  const [ data, setData ] = useState<T[]>(defaultValue)
 
   useEffect(() => {
-    axios.get<T>(path).catch(err => err.response).then(response => {
+    axios.get<T[]>(path).catch(err => err.response).then(response => {
       setData(response.data)
     })
   }, [])
 
-  return data
+  const loadmore = useCallback(() => {
+    axios.get<T[]>(path+'?after='+data.length).catch(err => err.response).then(response => {
+      setData(prevData => [...prevData, ...response.data])
+    })
+  }, [data])
+
+  return { data, loadmore }
 }
 
 export default useApiData

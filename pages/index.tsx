@@ -6,7 +6,7 @@ import useApiData from '../hooks/use-api-data'
 import Airport from '../types/airport'
 
 const Page: NextPage = () => {
-  const airports = useApiData<Airport[]>('/api/airports', [])
+  const {data: airports, loadmore} = useApiData<Airport>('/api/airports', [])
 
   return <Layout>
     <div className='max-w-2xl mx-auto'>
@@ -24,6 +24,8 @@ const Page: NextPage = () => {
           <AirportCard airport={airport} />
         ))}
       </div>
+
+      <div onClick={loadmore} className='block text-neutral-500 text-sm cursor-pointer mt-3 px-3 py-1 border rounded-2xl w-24'>Load More</div>
     </div>
   </Layout>
 }
