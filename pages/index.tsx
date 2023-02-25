@@ -19,7 +19,7 @@ const Page: NextPage = () => {
         <div className='bg-blue-400 rounded-2xl text-white text-sm font-bold px-2 py-1'>6073</div>
       </div>
 
-      <div className='grid grid-cols-2 gap-4'>
+      <div className='grid grid-cols-2 gap-4 mt-5'>
         {airports.map(airport => (
           <AirportCard airport={airport} />
         ))}
