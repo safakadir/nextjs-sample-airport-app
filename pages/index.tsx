@@ -25,7 +25,7 @@ const Page: NextPage = () => {
         ))}
       </div>
 
-      <div onClick={loadmore} className='block text-neutral-500 text-sm cursor-pointer mt-3 px-3 py-1 border rounded-2xl w-24'>Load More</div>
+      <div onClick={loadmore} className='block text-neutral-500 text-sm cursor-pointer mt-3 px-3 py-2 border rounded-3xl w-24'>Load More</div>
     </div>
   </Layout>
 }
