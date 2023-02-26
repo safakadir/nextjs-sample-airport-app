@@ -1,6 +1,7 @@
 interface QueryResult<T> {
     list: T[],
-    totalCount: number
+    totalCount: number,
+    hasMore: boolean
 }
 
 export default QueryResult

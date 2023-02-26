@@ -10,7 +10,7 @@ const Page: NextPage = () => {
   const [searchText, setSearchText] = useState<string>('')
   const [currentSearch, setCurrentSearch] = useState<string | undefined>(undefined)
 
-  const {dataList: airports, dataCount, isLoading, loadmore} = useApiData<Airport>('/api/v2/airports', currentSearch, [])
+  const {dataList: airports, dataCount, isLoading, loadmore, hasMore} = useApiData<Airport>('/api/v2/airports', currentSearch, [])
 
   const handleSearchKeyDown: KeyboardEventHandler<HTMLInputElement> = (e: KeyboardEvent<HTMLInputElement>) => {
     if(e.key === 'Enter') {
@@ -45,7 +45,7 @@ const Page: NextPage = () => {
         <h2 className='text-xl font-bold mr-3'>Airports</h2>
         <div className='bg-blue-400 rounded-2xl text-white text-sm font-bold px-2 py-1'>{dataCount}</div>
         {!!currentSearch &&
-          <div className='w-full flex justify-end items-end text-sm'>
+          <div className='w-full flex justify-end items-end text-sm mr-3'>
             Showing results for<span className='font-bold ml-1'>{currentSearch}</span>
             <span className='text-neutral-400 cursor-pointer font-bold ml-2' onClick={handleClearSearch}>X</span>
           </div>
@@ -64,7 +64,10 @@ const Page: NextPage = () => {
         }
       </div>
 
-      <div onClick={loadmore} className='block text-neutral-500 text-sm cursor-pointer mt-3 px-3 py-2 border rounded-3xl w-24'>Load More</div>
+      <div className='flex justify-end items-center mt-3'>
+        <span className='mr-3'>Showing {airports.length} of {dataCount} records</span>
+        {hasMore && <div onClick={loadmore} className='block text-neutral-500 text-sm cursor-pointer px-3 py-2 border rounded-3xl w-24'>Load More</div>}
+      </div>
     </div>
   </Layout>
 }

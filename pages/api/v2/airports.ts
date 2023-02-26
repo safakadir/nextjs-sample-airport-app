@@ -13,18 +13,20 @@ export default async (req: NextApiRequest, res: NextApiResponse) => {
   let result: QueryResult<Airport>
   if(!search) {
     const airports = await getAirportsAfter(after)
-    const countSearch = await findCountAll()
+    const countAll = await findCountAll()
     result = {
-      totalCount: countSearch,
-      list: airports
+      totalCount: countAll,
+      list: airports,
+      hasMore: countAll > after+airports.length
     }
   }
   else {
     const airports = await searchAndGetAirportsAfter(search, after)
-    const countAll = await findCountSearch(search)
+    const countSearch = await findCountSearch(search)
     result = {
-      totalCount: countAll,
-      list: airports
+      totalCount: countSearch,
+      list: airports,
+      hasMore: countSearch > after+airports.length
     }
   }
 
