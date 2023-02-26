@@ -1,5 +1,5 @@
 import { NextPage } from 'next'
-import { KeyboardEventHandler, KeyboardEvent, useState, ChangeEvent } from 'react'
+import { KeyboardEventHandler, KeyboardEvent, useState, ChangeEvent, useEffect, useCallback } from 'react'
 import AirportCard from '../components/airport-card'
 
 import Layout from '../components/layout'
@@ -31,6 +31,20 @@ const Page: NextPage = () => {
     setCurrentSearch(undefined)
     handleClearSearchBox()
   }
+
+  const handleScroll = () => {
+    const scrollTop = document.documentElement.scrollTop
+    const scrollHeight = document.documentElement.scrollHeight
+    const clientHeight = document.documentElement.clientHeight
+    if (scrollTop + clientHeight >= scrollHeight) {
+      loadmore()
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   return <Layout>
     <div className='max-w-2xl mx-auto'>
@@ -66,7 +80,6 @@ const Page: NextPage = () => {
 
       <div className='flex justify-end items-center mt-3'>
         <span className='mr-3'>Showing {airports.length} of {dataCount} records</span>
-        {hasMore && <div onClick={loadmore} className='block text-neutral-500 text-sm cursor-pointer px-3 py-2 border rounded-3xl w-24 hover:bg-gray-50'>Load More</div>}
       </div>
     </div>
   </Layout>
