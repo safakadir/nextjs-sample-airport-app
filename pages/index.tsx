@@ -52,10 +52,16 @@ const Page: NextPage = () => {
         }
       </div>
 
-      <div className='grid grid-cols-1 gap-4 sm:grid-cols-2 mt-5'>
-        {airports.map(airport => (
-          <AirportCard airport={airport} key={airport.iata} />
-        ))}
+      <div className='mt-5'>
+        {airports.length > 0 ? 
+          <div className='grid grid-cols-1 gap-4 sm:grid-cols-2'>
+            {airports.map(airport => (
+              <AirportCard airport={airport} key={airport.iata} />
+            ))}
+          </div>
+        :
+          <span>No airports found!</span>
+        }
       </div>
 
       <div onClick={loadmore} className='block text-neutral-500 text-sm cursor-pointer mt-3 px-3 py-2 border rounded-3xl w-24'>Load More</div>
