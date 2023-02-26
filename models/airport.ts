@@ -1,7 +1,7 @@
 import airports from '../data/airports.json'
 import Airport from '../types/airport'
 
-const BATCH_SIZE = 20
+const BATCH_SIZE = 10
 
 export const findAirportByIata = async (iata: string): Promise<Airport | undefined> => {
   return airports.find(airport => airport.iata === iata.toUpperCase())
@@ -18,8 +18,13 @@ export const getAirportsAfter = async (after: number): Promise<Airport[]> => {
 export const searchAndGetAirportsAfter = async (search: string, after: number): Promise<Airport[]> => {
   const result = []
   const searchLower = search.toLowerCase()
+  let skipped = 0
   for(let airport of airports) {
     if(!isMatches(airport, searchLower)) continue
+    if(skipped < after) {
+      skipped++
+      continue
+    }
     if(result.length < BATCH_SIZE) result.push(airport)
     if(result.length == BATCH_SIZE) break
   }
