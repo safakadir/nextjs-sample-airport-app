@@ -9,6 +9,20 @@ All data comes from a JSON file; for this challenge we don't need to set up a da
 
 
 
+## Additional Developments
+
+After the video is recorded and challange handed in, missing features has been completed.
+
+- Search feature
+- Infinitie Scroll
+- Responsiveness
+- Count indicator
+
+This developments can be found in a new branch named **improvements**
+
+
+
+
 ## Objective
 
 The following imaginary mock up has come from the designer to be implemented:
@@ -37,6 +51,7 @@ yarn dev
 ```
 
 Once started, the app should be available via http://localhost:3000
+
 
 
 
