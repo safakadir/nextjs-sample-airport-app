@@ -1,27 +1,38 @@
 import axios from "axios"
 import { useCallback, useEffect, useState } from "react"
+import QueryResult from "../types/query-result"
 
-interface UseApiProps<T> {
-  data: T[],
+interface UseApiResult<T> {
+  dataList: T[],
+  dataCount: number,
+  isLoading: boolean,
   loadmore: () => void
 }
 
-export const useApiData = <T>(path: string, defaultValue: any): UseApiProps<T> => {
-  const [ data, setData ] = useState<T[]>(defaultValue)
+export const useApiData = <T>(path: string, defaultValue: any): UseApiResult<T> => {
+  const [ dataList, setDataList ] = useState<T[]>(defaultValue)
+  const [ dataCount, setDataCount ] = useState<number>(0)
+  const [ isLoading, setIsLoading ] = useState<boolean>(false)
 
   useEffect(() => {
-    axios.get<T[]>(path).catch(err => err.response).then(response => {
-      setData(response.data)
+    setIsLoading(true)
+    axios.get<QueryResult<T>>(path).catch(err => err.response).then(response => {
+      setDataList(response.data.list)
+      setDataCount(response.data.totalCount)
+      setIsLoading(false)
     })
   }, [])
 
   const loadmore = useCallback(() => {
-    axios.get<T[]>(path+'?after='+data.length).catch(err => err.response).then(response => {
-      setData(prevData => [...prevData, ...response.data])
+    setIsLoading(true)
+    const pathWithAfter = path+'?after='+dataList.length
+    axios.get<QueryResult<T>>(pathWithAfter).catch(err => err.response).then(response => {
+      setDataList(prevList => [...prevList, ...response.data.list])
+      setIsLoading(false)
     })
-  }, [data])
+  }, [dataList])
 
-  return { data, loadmore }
+  return { dataList, dataCount, isLoading, loadmore }
 }
 
 export default useApiData

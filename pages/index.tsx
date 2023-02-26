@@ -6,7 +6,7 @@ import useApiData from '../hooks/use-api-data'
 import Airport from '../types/airport'
 
 const Page: NextPage = () => {
-  const {data: airports, loadmore} = useApiData<Airport>('/api/airports', [])
+  const {dataList: airports, dataCount, isLoading, loadmore} = useApiData<Airport>('/api/v2/airports', [])
 
   return <Layout>
     <div className='max-w-2xl mx-auto'>
@@ -16,7 +16,7 @@ const Page: NextPage = () => {
 
       <div className='flex mt-10'>
         <h2 className='text-xl font-bold mr-3'>Airports</h2>
-        <div className='bg-blue-400 rounded-2xl text-white text-sm font-bold px-2 py-1'>6073</div>
+        <div className='bg-blue-400 rounded-2xl text-white text-sm font-bold px-2 py-1'>{dataCount}</div>
       </div>
 
       <div className='grid grid-cols-2 gap-4 mt-5'>
