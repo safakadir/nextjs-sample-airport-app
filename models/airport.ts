@@ -26,6 +26,14 @@ export const searchAndGetAirportsAfter = async (search: string, after: number): 
   return result
 }
 
+export const findCountAll = async (): Promise<number> => {
+  return airports.length
+}
+
+export const findCountSearch = async (): Promise<number> => {
+  return 0 //TODO
+}
+
 const isMatches = (airport: Airport, search: string): boolean => {
   if(airport.name.toLowerCase().includes(search)) return true
   if(airport.city.toLowerCase().includes(search)) return true
