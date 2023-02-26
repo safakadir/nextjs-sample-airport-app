@@ -21,7 +21,7 @@ const Page: NextPage = () => {
 
       <div className='grid grid-cols-2 gap-4 mt-5'>
         {airports.map(airport => (
-          <AirportCard airport={airport} />
+          <AirportCard airport={airport} key={airport.iata} />
         ))}
       </div>
 
