@@ -35,8 +35,8 @@ export const findCountAll = async (): Promise<number> => {
   return airports.length
 }
 
-export const findCountSearch = async (): Promise<number> => {
-  return 0 //TODO
+export const findCountSearch = async (search: string): Promise<number> => {
+  return airports.filter(a => isMatches(a, search)).length
 }
 
 const isMatches = (airport: Airport, search: string): boolean => {
