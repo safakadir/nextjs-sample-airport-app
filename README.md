@@ -9,16 +9,14 @@ All data comes from a JSON file; for this challenge we don't need to set up a da
 
 
 
-## Additional Developments
+## Additional Features
 
-After the video is recorded and challange handed in, missing features has been completed.
+Following features has also been implemented.
 
 - Search feature
 - Infinitie Scroll
 - Responsiveness
 - Count indicator
-
-This developments can be found in a new branch named **improvements**
 
 
 
