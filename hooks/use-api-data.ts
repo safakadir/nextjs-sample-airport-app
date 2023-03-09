@@ -1,27 +1,50 @@
 import axios from "axios"
 import { useCallback, useEffect, useState } from "react"
+import QueryResult from "../types/query-result"
 
-interface UseApiProps<T> {
-  data: T[],
-  loadmore: () => void
+interface UseApiResult<T> {
+  dataList: T[],
+  dataCount: number,
+  isLoading: boolean,
+  loadmore: () => void,
+  hasMore: boolean
 }
 
-export const useApiData = <T>(path: string, defaultValue: any): UseApiProps<T> => {
-  const [ data, setData ] = useState<T[]>(defaultValue)
+export const useApiData = <T>(path: string, search: string|undefined, defaultValue: any): UseApiResult<T> => {
+  const [ dataList, setDataList ] = useState<T[]>(defaultValue)
+  const [ dataCount, setDataCount ] = useState<number>(0)
+  const [ hasMore, setHasMore ] = useState<boolean>(false)
+  const [ isLoading, setIsLoading ] = useState<boolean>(false)
 
   useEffect(() => {
-    axios.get<T[]>(path).catch(err => err.response).then(response => {
-      setData(response.data)
+    setIsLoading(true)
+    axios.get<QueryResult<T>>(getPathWithSearch(path, search)).catch(err => err.response).then(response => {
+      setDataList(response.data.list)
+      setDataCount(response.data.totalCount)
+      setHasMore(response.data.hasMore)
+      setIsLoading(false)
     })
-  }, [])
+  }, [search])
 
   const loadmore = useCallback(() => {
-    axios.get<T[]>(path+'?after='+data.length).catch(err => err.response).then(response => {
-      setData(prevData => [...prevData, ...response.data])
+    setIsLoading(true)
+    const pathWithAfter = appendAfter(getPathWithSearch(path, search), dataList.length)
+    axios.get<QueryResult<T>>(pathWithAfter).catch(err => err.response).then(response => {
+      setDataList(prevList => [...prevList, ...response.data.list])
+      setHasMore(response.data.hasMore)
+      setIsLoading(false)
     })
-  }, [data])
+  }, [dataList])
 
-  return { data, loadmore }
+  return { dataList, dataCount, isLoading, loadmore, hasMore }
+}
+
+const getPathWithSearch = (path: string, search: string|undefined): string => {
+  return search ? path+'?search='+search : path
+}
+
+const appendAfter = (path: string, after: number): string => {
+  return path.includes('?') ? path+'&after='+after : path+'?after='+after
 }
 
 export default useApiData
